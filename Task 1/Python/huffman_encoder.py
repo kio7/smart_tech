@@ -56,7 +56,7 @@ def main():
     # Write decoding keys, values to codes.txt
     with open(os.path.join(sys.path[0], "codes.txt"), 'w', encoding="utf-8") as f:
         for i in encoding:
-            f.write(f'{i} : {encoding[i]}\n')
+            f.write(f'{encoding[i]} : {i}\n')
 
     # Write the encoded input to output.txt
     with open(os.path.join(sys.path[0], "output.txt"), 'w', encoding="utf-8") as f:
