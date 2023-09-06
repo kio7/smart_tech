@@ -59,14 +59,19 @@ def main():
             f.write(f'{encoding[i]} : {i}\n')
 
     # Write the encoded input to output.txt
-    with open(os.path.join(sys.path[0], "output.txt"), 'w', encoding="utf-8") as f:
+    with open(os.path.join(sys.path[0], "output.bin"), 'wb') as f:
         output = ""
         for i in string:
             output = output + encoding[i]
-        f.write(f'{output}')
+
+        b = bytearray()
+        for i in range(0, len(output), 8):
+            b.append(int(output[i:i+8], 2))
+
+        f.write(bytes(b))
     
     input_size_bytes = len(string)
-    encoded_size_bytes = len(output) // 8
+    encoded_size_bytes = len(output) // 8 
     compression_ratio = input_size_bytes / encoded_size_bytes
     print(f'Size of input string in bytes: {input_size_bytes}\nSize of output string in bytes: {encoded_size_bytes}\nCompression ratio: {compression_ratio}')
 
