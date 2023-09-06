@@ -48,6 +48,7 @@ def main():
     with open(os.path.join(sys.path[0], "input.txt"), 'r', encoding="utf-8") as f:
         string = f.read()
 
+    # Execute the algorithm
     freq = dict(Counter(string))
     freq = sorted(freq.items(), key=lambda x: x[1], reverse=True)
     node = make_tree(freq)
@@ -58,7 +59,7 @@ def main():
         for i in encoding:
             f.write(f'{encoding[i]} : {i}\n')
 
-    # Write the encoded input to output.txt
+    # Write the encoded data to output.bin
     with open(os.path.join(sys.path[0], "output.bin"), 'wb') as f:
         output = ""
         for i in string:
