@@ -1,1 +1,4 @@
-Created to make the folder.
+Implement an application where you can use an image and! 
+other data (i.e. audio, random data etc) as an input and 
+you can choose whether to compress it with RLE, 
+Arithmetic, Hufman or Dictionary based Coding (30 points)
