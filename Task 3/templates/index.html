@@ -1,13 +1,23 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>File Upload and Conversion</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Upload an Image File</title>
+        <link rel="stylesheet" type="text/css" href="static/styles/styles.css"> <!-- Add this line -->
+    </head>
 <body>
-    <h1>Upload an Image File</h1>
+    <h1>Encode your file!</h1>
     <form method="POST" action="/upload" enctype="multipart/form-data">
         <input type="file" name="file" accept=".png, .jpg, .jpeg, .gif">
-        <input type="submit" value="Upload and Convert">
+        <label for="dropdown">Select an Option:</label>
+        <select name="dropdown" id="dropdown">
+            <option value="1">RLE</option>
+            <option value="2">Arithmetic</option>
+            <option value="3">Huffman</option>
+            <option value="4">Dictionary</option>
+        </select>
+        <input type="submit" value="Upload and encode!">
     </form>
 </body>
 </html>

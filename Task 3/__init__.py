@@ -1,5 +1,5 @@
 import os
-from flask import request, render_template, send_from_directory, send_file
+from flask import request, render_template, send_from_directory, send_file, flash
 from werkzeug.utils import secure_filename
 from PIL import Image
 
@@ -32,6 +32,9 @@ def upload_file():
     if not allowed_file(file.filename):
         return "Invalid file extension"
 
+    '''
+    TODO In this section we call on the appropriate encoding algorithm, instead of doing the JPEG conversion.
+    '''
     if file:
         # Securely save the uploaded file
         filename = secure_filename(file.filename)
