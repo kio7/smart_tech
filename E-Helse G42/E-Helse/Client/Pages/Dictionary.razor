@@ -1,0 +1,94 @@
+﻿@page "/dictionary"
+@inject IJSRuntime JSRuntime
+@using EasyCompressor
+
+
+<PageTitle>LZ77 Dictionary encoding</PageTitle>
+
+<MudText Typo="Typo.h3" GutterBottom="true">LZ77 Dictionary encoding</MudText>
+
+<MudText Style="margin: 30px;">
+    Currently this supports compression of all file types and data.
+</MudText>
+
+<div style="width: 200px;">
+    <MudFileUpload T="IBrowserFile" Context="fileInput" FilesChanged="UploadFiles">
+        <ButtonTemplate>
+            <MudButton HtmlTag="label"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       StartIcon="@Icons.Material.Filled.CloudUpload"
+                       for="@fileInput">
+                Upload Files
+            </MudButton>
+        </ButtonTemplate>
+    </MudFileUpload>
+</div>
+
+@if (files != null)
+{
+    <MudText Typo="@Typo.h6">@files.Count() File@(files.Count() == 1 ? "" : "s"):</MudText>
+    <MudList>
+        @foreach (var file in files)
+        {
+            <MudListItem Icon="@Icons.Material.Filled.AttachFile" @key="@file">
+                @file.Name  &emsp; @file.Size bytes
+            </MudListItem>
+        }
+    </MudList>
+}
+
+
+<MudButton Variant="Variant.Filled" Color="Color.Secondary" Style="margin-top: 30px" OnClick="HuffmanEncode">Encode</MudButton>
+
+<MudText Class="@invisible" Style="margin-top: 20px;">File size after encoding: &emsp; @encodedFileSize bytes. This is a reduction of @savings %</MudText>
+
+
+@code {
+    string encodedFileSize = "0";
+    Byte[] content;
+    long savings;
+    string invisible = "invisible";
+    int maxFilesize = 1000;
+
+    IList<IBrowserFile> files = new List<IBrowserFile>();
+    private async void UploadFiles(IBrowserFile file)
+    {
+        if (file.Size > maxFilesize * 1024)
+        {
+            await JSRuntime.InvokeAsync<bool>("confirm", $"Please choose a file smaller than {maxFilesize}kB");
+            return;
+        }
+        invisible = "invisible";
+        files.Clear();
+        files.Add(file);
+    }
+    async Task ReadFiles()
+    {
+        if (files != null)
+        {
+            foreach (var file in files)
+            {
+
+                // get the file size
+                var buffer = new byte[file.Size];
+                // read the text file
+                await file.OpenReadStream(maxAllowedSize: 1024 * 1000).ReadAsync(buffer);
+                // convert byte array to string
+                content = buffer;
+
+            }
+        }
+    }
+
+    private async Task HuffmanEncode()
+    {
+        await ReadFiles();
+
+        var encodedData = Compressor.CompressBytes(content).ToArray();
+
+        encodedFileSize = encodedData.Length.ToString();
+        savings = 100 - (encodedData.Length) * 100 / files.First().Size;
+        invisible = "visible";
+    }
+}

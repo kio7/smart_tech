@@ -1,0 +1,101 @@
+﻿@page "/huffman"
+
+
+
+<PageTitle>Huffman</PageTitle>
+
+<MudText Typo="Typo.h3" GutterBottom="true">Huffman</MudText>
+
+<MudText Style="margin: 30px;">
+    Please upload .txt files only. Most other text files are compressed already.
+    Docx for example is in essence an archive of compressed .xml files. Uncompressing it, reading out the
+    string and then applying Huffman encoding would serve no purpose and the resulting file size would be
+    greater than the original file.</MudText>
+
+<div style="width: 200px;">
+<MudFileUpload T="IBrowserFile" Context="fileInput" FilesChanged="UploadFiles">
+    <ButtonTemplate>
+        <MudButton HtmlTag="label"
+                   Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.CloudUpload"
+                   for="@fileInput">
+            Upload Files
+        </MudButton>
+    </ButtonTemplate>
+</MudFileUpload>
+</div>
+
+@if (files != null)
+{
+    <MudText Typo="@Typo.h6">@files.Count() File@(files.Count() == 1 ? "" : "s"):</MudText>
+    <MudList>
+        @foreach (var file in files)
+        {
+            <MudListItem Icon="@Icons.Material.Filled.AttachFile" @key="@file">
+                @file.Name  &emsp; @file.Size bytes
+            </MudListItem>
+        }
+    </MudList>
+}
+
+<div style="display:flex">
+    <MudTextField T="string" Label="Outlined" Variant="Variant.Outlined" Text="@sampleText" Lines="6" Style="float:left;" />
+    <MudButton Variant="Variant.Filled" Style="float:left; height:fit-content; margin-top: 60px" OnClick="showText">Show Text</MudButton>
+</div>
+
+<MudButton Variant="Variant.Filled" Color="Color.Secondary" Style="margin-top: 30px" OnClick="HuffmanEncode">Encode</MudButton>
+
+<MudText Class="@invisible" Style="margin-top: 20px;">File size after encoding: &emsp; @encodedFileSize bytes. This is a reduction of @savings %</MudText>
+
+@code {
+    string sampleText = "";
+    string encodedFileSize= "0";
+    string content = string.Empty;
+    long savings;
+    string invisible = "invisible";
+
+    IList<IBrowserFile> files = new List<IBrowserFile>();
+    private void UploadFiles(IBrowserFile file)
+    {
+        sampleText = "";
+        invisible = "invisible";
+        files.Clear();
+        files.Add(file);
+    }
+    async Task ReadFiles()
+    {
+        if (files != null)
+        {
+            foreach (var file in files)
+            {
+                // get the file size
+                var buffer = new byte[file.Size];
+                // read the text file
+                await file.OpenReadStream().ReadAsync(buffer);
+                // convert byte array to string
+                content = System.Text.Encoding.UTF8.GetString(buffer);
+                
+
+            }
+        }
+    }
+    private async Task showText()
+    {
+        await ReadFiles();
+        sampleText = content;
+    }
+
+    private async Task HuffmanEncode()
+    {
+        await ReadFiles();
+        HuffmanTree huffmanTree = new HuffmanTree();
+        huffmanTree.Build(content);
+
+        // Encode
+        BitArray encoded = huffmanTree.Encode(content);
+        encodedFileSize = (encoded.Length / 8).ToString();
+        savings = 100 - (encoded.Length / 8)*100 / files.First().Size;
+        invisible = "visible";
+    }
+}
