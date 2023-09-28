@@ -1,7 +1,7 @@
 from collections import Counter
 import os, sys
 
-
+# Object with leaf-nodes, left and right
 class NodeTree(object):
     def __init__(self, left=None, right=None):
         self.left = left
@@ -18,10 +18,14 @@ def huffman_code_tree(node, binString=''):
     '''
     Function to find Huffman Code
     '''
+    # If 'node' has no leaf-nodes, return
     if type(node) is str:
         return {node: binString}
+    # Leaf-nodes are assigned to left and right
     (l, r) = node.children()
+    # Make an empty dictionary
     d = dict()
+    # Update either overwrites or inserts new values into dictionary of nodes
     d.update(huffman_code_tree(l, binString + '0'))
     d.update(huffman_code_tree(r, binString + '1'))
     return d
@@ -49,8 +53,11 @@ def main():
         string = f.read()
 
     # Execute the algorithm
+    # First makes a table of the symbols with frequency
     freq = dict(Counter(string))
+    # Sort the dictionary by value frequency, descending order
     freq = sorted(freq.items(), key=lambda x: x[1], reverse=True)
+    # Create a tree of the frequency table
     node = make_tree(freq)
     encoding = huffman_code_tree(node)
 
@@ -59,7 +66,7 @@ def main():
         for i in encoding:
             f.write(f'{encoding[i]} : {i}\n')
 
-    # Write the encoded data to output.bin
+    # Write the encoded data as binary to output.bin
     with open(os.path.join(sys.path[0], "output.bin"), 'wb') as f:
         output = ""
         for i in string:
@@ -71,6 +78,7 @@ def main():
 
         f.write(bytes(b))
     
+    #Show original and encoded sizes, and the compression ratio
     input_size_bytes = len(string)
     encoded_size_bytes = len(output) // 8 
     compression_ratio = input_size_bytes / encoded_size_bytes
