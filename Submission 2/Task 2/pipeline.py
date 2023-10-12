@@ -5,8 +5,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Choose a photo
-x = True
-filename = "01.jpg" if x else "02.jpg"
+filename = "01.jpg"
+# filename = "02.jpg"
 path = os.path.join(os.path.dirname(__file__), f"photos/{filename}")
 # Load the original photo
 original_image = cv2.imread(path)
@@ -21,39 +21,35 @@ roi_reconstructed = cv2.idct(dct)
 # Variables needed for different filters.
 rows, cols = gray.shape
 crow, ccol = rows//2 , cols//2
-V1 = 30
-V2 = 31
-V3 = 300
-f = np.fft.fft2(gray)
-fshift = np.fft.fftshift(f)
-
+V1 = 10
+# C2, R2 = 200, 300 # passive
+C2, R2 = 310, 600 # Agressive
 
 
 # High
-high = deepcopy(fshift)
+high = deepcopy(dct)
 # Adjusting the numbers below changes the rate of compression, but large changes are needed to see a difference.
-high[crow-V1:crow+V2, ccol-V1:ccol+V2] = 0
-high_ishift = np.fft.ifftshift(high)
-high_back = np.fft.ifft2(high_ishift)
+high[0:V1, 0:V1] = 0
+high_back = cv2.idct(high)
 high_img = np.real(high_back)
 
 
 # Low
-low = deepcopy(fshift)
+low = deepcopy(dct)
 # Adjusting the numbers below changes the rate of compression, but large changes are needed to see a difference.
-low[0:V3, 0:V3] = 0
-low_ishift = np.fft.ifftshift(low)
-low_back = np.fft.ifft2(low_ishift)
+low[len(dct)-C2:, len(dct)-R2:] = 0
+
+low_back = cv2.idct(low)
 low_img = np.real(low_back)
 
 
 # High and low
-high_low = deepcopy(fshift)
+high_low = deepcopy(dct)
 # Adjusting the numbers below changes the rate of compression, but large changes are needed to see a difference.
-high_low[crow-V1:crow+V2, ccol-V1:ccol+V2] = 0
-high_low[0:V3, 0:V3] = 0
-high_low_ishift = np.fft.ifftshift(high_low)
-high_low_back = np.fft.ifft2(high_low_ishift)
+high_low[0:V1, 0:V1] *= 0.1
+high_low[len(dct)-C2:, len(dct)-R2:] = 0
+
+high_low_back = cv2.idct(high_low)
 high_low_img = np.real(high_low_back)
 
 
