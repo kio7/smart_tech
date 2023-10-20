@@ -21,6 +21,10 @@
                 <div class="text-center">
                     <!-- ----------------MENU------------------ -->
                     <a class="btn btn-sm btn-primary mt-3 ml-3 mr-3" href="{{ url_for('index') }}">Home</a>
+                    <a class="btn btn-sm btn-primary mt-3 ml-3 mr-3" href="{{ url_for('lossy_compression') }}">FFT</a>
+                    <a class="btn btn-sm btn-primary mt-3 ml-3 mr-3" href="{{ url_for('lossy_compression_2') }}">DCT</a>
+                    <a class="btn btn-sm btn-primary mt-3 ml-3 mr-3" href="{{ url_for('wavelet_mra') }}">Wavelet MRA</a>
+                    <a class="btn btn-sm btn-primary mt-3 ml-3 mr-3" href="{{ url_for('wavelet_transform') }}">Wavelet transform</a>
                 </div>
 
                 {% block body %}{% endblock %}
