@@ -1,7 +1,13 @@
 from baseconfig import app
-from flask import render_template
+from flask import render_template, request
 import numpy as np
 import cv2
+from base64 import b64encode
+from io import BytesIO
+from forms import waveletImageForm
+from wavelet import wavelet_transform_mra
+
+
 
 
 @app.route("/", methods=["GET"])
@@ -21,17 +27,24 @@ def lossy_compression_2():
     
     return render_template("index.html")
 
-@app.route("/wavelet-mra", methods=["GET"])
+@app.route("/wavelet-mra", methods=["POST", "GET"])
 def wavelet_mra():
-    # Task 3
-    
-    return render_template("index.html")
+    form = waveletImageForm()
+    input_image = None
+
+    if form.submit.data and form.validate():
+        image = request.files['image'].read()
+        input_image = f"data:image/png;base64,{b64encode(image).decode('utf-8')}"
+        mra = wavelet_transform_mra(image)        
+ 
+        return render_template("wavelet-mra.html", form=form, input_image=input_image, mra = mra)
+    return render_template("wavelet-mra.html", form=form, input_image = input_image)
 
 @app.route("/wavelet_transform", methods=["GET"])
 def wavelet_transform():
     # Task 4
     
-    return render_template("index.html")
+    return render_template("wavelet-transform.html")
 
 @app.route("/harnverhalt", methods=["GET"])
 def harnverhalt():

@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+{% block title %}MRA of Wavelet Transform{% endblock %}
+{% block body %}
+
+<h1>MRA of Wavelet Transform</h1>
+<div class="subtitle">(Multi Resolution Analysis)</div>
+<hr>
+
+
+<div class="mt-3">
+    <form method="POST" novalidate enctype="multipart/form-data">
+        {{ form.csrf_token() }}
+        <div class="row">
+            <div class="col">
+                <label for="picture">Choose picture (only .jpg !!):</label>
+                {{ form.image(class='form-control') }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                {{ form.submit(class='btn btn-success mt-2') }}
+            </div>
+        </div>
+    </form>
+</div>
+
+{% if input_image != None %}
+
+    <hr>
+
+    <img src="{{ input_image }}" alt="Input image">
+    {% for image in mra %}
+        <img src="{{ image }}" alt="">
+    {% endfor %}
+
+{% endif %}
+<hr>
+<br>
+<h3>Applications of Wavelet transform</h3>
+<h4>Image Compression:</h4>
+<p>
+Use of Wavelet Transforms: Wavelet transforms, such as the Discrete Wavelet Transform (DWT), are employed in image compression algorithms, like JPEG 2000.
+Why They Are Useful: Wavelet-based image compression is superior to traditional methods (e.g., JPEG) because it offers a multi-resolution representation of the image. This means that fine details can be preserved while reducing the size of the image file significantly. It allows for adaptive compression, where different parts of the image can be compressed to varying degrees based on their importance, resulting in higher-quality images at lower file sizes.
+</p>
+
+<h4>Medical Image Analysis:</h4>
+<p>
+Use of Wavelet Transforms: In medical imaging, wavelet transforms are used for tasks such as feature extraction, denoising, and detecting abnormalities in images like MRIs and CT scans.
+Why They Are Useful: Medical images often contain both low-frequency structures (e.g., organs) and high-frequency noise. Wavelet transforms allow for the separation of these components, making it easier to identify subtle abnormalities while reducing noise. By focusing on specific scales, doctors can analyze different aspects of the image, such as fine structures or broader anatomical features, improving diagnostic accuracy.
+</p>
+
+<h4>Financial Time Series Analysis:</h4>
+<p>
+Use of Wavelet Transforms: Financial analysts use wavelet transforms to decompose and analyze financial time series data, such as stock prices and market volatility.
+Why They Are Useful: Financial data often exhibits fluctuations at various time scales, from short-term fluctuations to long-term trends. Wavelet transforms enable analysts to decompose these time series into different frequency components, making it possible to study market behavior and identify critical features or anomalies at different time scales. This can lead to more informed investment decisions and risk management strategies.
+</p>
+
+{% endblock %}

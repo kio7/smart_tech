@@ -1,30 +1,50 @@
 import os
 import numpy as np
 import pywt
-from PIL import Image
 import cv2
 import pywt
 import pywt.data
+import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
+from io import BytesIO
+from PIL import Image
+from base64 import b64encode
 
-
-def wavelet_transform_mra(path):
-    # Load your own image (replace 'your_image_path.png' with your image file path)
-    your_image = Image.open(path).convert('L')  # Convert to grayscale
-
-    # Convert the PIL image to a NumPy array
-    your_image = np.array(your_image)
-
+def wavelet_transform_mra(image) -> list:
+    # Read the image data from the FileStorage object
+    image_data = np.fromstring(image, np.uint8)    
+    image_data = cv2.imdecode(image_data, cv2.IMREAD_GRAYSCALE)
+    
     # Wavelet transform of the grayscale image, and plot approximation and details
-    titles = ['Approximation', 'Horizontal detail', 'Vertical detail', 'Diagonal detail']
-    coeffs2 = pywt.dwt2(your_image, 'bior1.3')
+    coeffs2 = pywt.dwt2(image_data, 'bior1.3')
     LL, (LH, HL, HH) = coeffs2
 
-    return [LL, LH, HL, HH]
+    # Create plots and return as list of images
+    titles = ['Approximation', 'Horizontal detail', 'Vertical detail', 'Diagonal detail']
+    plots = []
+
+    for i, image in enumerate([LL, LH, HL, HH]):
+        fig = Figure(figsize=(16, 9))
+        plot = fig.subplots()
+
+        plot.imshow(image, interpolation="nearest", cmap=plt.cm.gray)
+        plot.set_title(titles[i], fontsize=20)
+        plot.set_xticks([])
+        plot.set_yticks([])
+
+        buf = BytesIO()
+        fig.savefig(buf, format="png")
+        data = b64encode(buf.getvalue()).decode('utf-8')
+        plots.append(f"data:image/png;base64,{data}")
+
+    return plots
 
 
 def wavelet_transform(image_path):
+    # Load an example image 
     original_image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
 
+    # Load the image you want to use as meta-information
     path = os.path.dirname(__file__)
     meta_info_image_path = "transform.jpg"
     meta_info_image = cv2.imread(os.path.join(path, meta_info_image_path), cv2.IMREAD_GRAYSCALE)
