@@ -3,6 +3,7 @@ from flask import render_template
 import numpy as np
 import cv2
 
+
 @app.route("/", methods=["GET"])
 def index():
     return render_template("index.html")
