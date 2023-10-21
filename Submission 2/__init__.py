@@ -35,9 +35,15 @@ def wavelet_transform():
 
 @app.route("/harnverhalt", methods=["GET"])
 def harnverhalt():
-    # Task 4
-    
-    return render_template("index.html")
+    # Task 5
+
+    return render_template("harnverhalt.html")
+
+@app.route("/cmp", methods=["GET"])
+def cmp():
+    # Task 6
+
+    return render_template("cmp.html")
 
 
 
