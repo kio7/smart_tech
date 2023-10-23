@@ -7,3 +7,8 @@ from flask_wtf.file import FileAllowed
 class waveletImageForm(FlaskForm):
     image = FileField('Upload Picture', validators=[FileAllowed(['jpg'], 'Only JPEG images allowed!')])
     submit = SubmitField('Submit')
+
+class cmpForm(FlaskForm):
+    mil = SubmitField('MIL')
+    kcf = SubmitField('KCF')
+    csrt = SubmitField('CSRT')

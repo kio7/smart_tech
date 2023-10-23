@@ -5,8 +5,9 @@
 <h1>Wavelet Transform</h1>
 <div class="subtitle">Example of usage on image</div>
 <hr>
-
-
+<p>In this example we are using wavelet transform and swapping out the aproximation layer with our own image. The image we are using is this:</p>
+<img style="width: 200px;" src="{{ url_for('static', filename='wavelet_transform.jpg') }}" alt="">
+<hr>
 <div class="mt-3">
     <form method="POST" novalidate enctype="multipart/form-data">
         {{ form.csrf_token() }}
