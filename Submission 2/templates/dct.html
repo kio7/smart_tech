@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+{% block title %}DCT{% endblock %}
+{% block body %}
+
+<h1>DCT</h1>
+<hr>
+
+<!-- Error messages from the form -->
+{% for field, errors in form.errors.items() %}
+    <div class="alert error">
+        {{ form[field].label }}: {{ ', '.join(errors) }}
+    </div>
+{% endfor %}
+
+
+<div class="mt-3">
+    <form method="POST" novalidate enctype="multipart/form-data">
+        {{ form.csrf_token() }}
+        <div class="row">
+            <div class="col">
+                <label for="picture">Choose picture (only .jpg !!):</label>
+                {{ form.image(class='form-control') }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                {{ form.select(class='form-control mt-2') }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                {{ form.submit(class='btn btn-success mt-2') }}
+            </div>
+        </div>
+    </form>
+</div>
+
+{% if output != None %}
+    <hr>
+    <div class="subtitle">Original</div>
+    <img src="{{ input_image }}" alt="Input image">
+    
+    <hr>
+    <div class="subtitle">Output</div>
+    <img src="{{ output }}" alt="">
+{% endif %}
+
+
+{% endblock %}

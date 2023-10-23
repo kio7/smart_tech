@@ -5,6 +5,11 @@
     }
 }
 
+:root {
+    --alert-success: rgb(111, 227, 115, 0.8);
+    --alert-warning: rgb(227, 111, 111, 0.8);
+}
+
 h1 {
     text-align: center;
     margin-top: 20px;
@@ -71,7 +76,7 @@ label {
 
 .alert {
     position: absolute;
-    left: 50%;
+    left: 37.5%;
     top: 25%;
     width: 20rem;
     min-height: 2rem;
