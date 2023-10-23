@@ -1,13 +1,14 @@
 from baseconfig import app
+
+# From our files
 from wavelet import wavelet_transform_mra as wtmra
 from wavelet import wavelet_transform as wt
+from FFT import fft_quantization_huffman
+from our_DCT import dct_quantization
+
 from flask import render_template, request
 from base64 import b64encode
-from forms import waveletImageForm
-
-# import numpy as np
-# import cv2
-# from io import BytesIO
+from forms import waveletImageForm, DCTImageForm
 
 
 @app.route("/", methods=["GET"])
@@ -15,19 +16,34 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/lossy-compression", methods=["GET"])
-def lossy_compression():
-    # Task 1
+@app.route("/fft", methods=["GET", "POST"])
+def fft():
+    form = waveletImageForm()
+    input_image = None
+    output = None
+
+    if form.validate_on_submit():
+        image = form.image.data.read()
+        output = fft_quantization_huffman(image)
+        input_image = f"data:image/png;base64,{b64encode(image).decode('utf-8')}"
+        return render_template("fft_and_huffman.html", form=form, output=output, input_image=input_image)
+    return render_template("fft_and_huffman.html", form=form, output=output, input_image=input_image)
 
 
-    return render_template("index.html")
+@app.route("/dct", methods=["GET", "POST"])
+def dct():
+    form = DCTImageForm()
+    input_image = None
+    output = None
 
-
-@app.route("/lossy-compression-2", methods=["GET"])
-def lossy_compression_2():
-    # Task 2
-    
-    return render_template("index.html")
+    if form.validate_on_submit():
+        image = form.image.data.read()
+        user_input = form.select.data
+        print(repr(user_input))
+        output = dct_quantization(image, user_input)
+        input_image = f"data:image/png;base64,{b64encode(image).decode('utf-8')}"
+        return render_template("dct.html", form=form, output=output, input_image=input_image)
+    return render_template("dct.html", form=form, output=output, input_image=input_image)
 
 
 @app.route("/wavelet-mra", methods=["POST", "GET"])
@@ -38,7 +54,7 @@ def wavelet_mra():
     if form.submit.data and form.validate():
         image = request.files['image'].read()
         input_image = f"data:image/png;base64,{b64encode(image).decode('utf-8')}"
-        mra = wtmra(image)        
+        mra = wtmra(image)
  
         return render_template("wavelet-mra.html", form=form, input_image=input_image, mra = mra)
     return render_template("wavelet-mra.html", form=form, input_image = input_image)
