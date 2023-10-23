@@ -39,7 +39,6 @@ def dct():
     if form.validate_on_submit():
         image = form.image.data.read()
         user_input = form.select.data
-        print(repr(user_input))
         output = dct_quantization(image, user_input)
         input_image = f"data:image/png;base64,{b64encode(image).decode('utf-8')}"
         return render_template("dct.html", form=form, output=output, input_image=input_image)
