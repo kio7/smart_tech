@@ -5,10 +5,11 @@ from wavelet import wavelet_transform_mra as wtmra
 from wavelet import wavelet_transform as wt
 from FFT import fft_quantization_huffman
 from our_DCT import dct_quantization
+from Task_5 import harnverhalt_roi as hh
 
 from flask import render_template, request
 from base64 import b64encode
-from forms import waveletImageForm, DCTImageForm
+from forms import waveletImageForm, DCTImageForm, RegionOfInterestForm
 
 
 @app.route("/", methods=["GET"])
@@ -72,11 +73,17 @@ def wavelet_transform():
     return render_template("wavelet-transform.html", form = form, input_image = input_image)
 
 
-@app.route("/harnverhalt", methods=["GET"])
+@app.route("/harnverhalt", methods=["POST", "GET"])
 def harnverhalt():
-    # Task 5
-
-    return render_template("harnverhalt.html")
+    form = RegionOfInterestForm()
+    images = None
+    if form.validate_on_submit():
+        morph = form.morphological.data
+        sift = form.sift.data
+        imagess = hh.harnverhalt_ROI(morph, sift)
+        return render_template("harnverhalt.html", form=form, images=imagess)
+    
+    return render_template("harnverhalt.html", form=form, images=images)
 
 
 @app.route("/cmp", methods=["POST", "GET"])

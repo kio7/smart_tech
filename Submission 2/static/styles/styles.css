@@ -107,7 +107,11 @@ label {
 }
 
 .horizontal-centered {
-    margin: 0 auto;
     text-align: center;
 }
 
+.roi-image {
+    display: inline-block;
+    margin: 1 auto;
+    max-width: 48%;
+}
