@@ -9,7 +9,7 @@ from Task_5 import harnverhalt_roi as hh
 
 from flask import render_template, request
 from base64 import b64encode
-from forms import waveletImageForm, DCTImageForm, RegionOfInterestForm
+from forms import waveletImageForm, DCTImageForm, RegionOfInterestForm, FFTImageForm
 
 
 @app.route("/", methods=["GET"])
@@ -19,7 +19,7 @@ def index():
 
 @app.route("/fft", methods=["GET", "POST"])
 def fft():
-    form = waveletImageForm()
+    form = FFTImageForm()
     input_image = None
     output = None
 

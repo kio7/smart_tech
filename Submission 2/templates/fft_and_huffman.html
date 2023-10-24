@@ -5,12 +5,19 @@
 <h1>FFT and Huffman</h1>
 <hr>
 
+<!-- Error messages from the form -->
+{% for field, errors in form.errors.items() %}
+    <div class="alert error">
+        {{ form[field].label }}: {{ ', '.join(errors) }}
+    </div>
+{% endfor %}
+
 <div class="mt-3">
     <form method="POST" novalidate enctype="multipart/form-data">
         {{ form.csrf_token() }}
         <div class="row">
             <div class="col">
-                <label for="picture">Choose picture (only .jpg !!):</label>
+                <label for="picture">Choose picture (only .jpg or .png):</label>
                 {{ form.image(class='form-control') }}
             </div>
         </div>

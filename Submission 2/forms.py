@@ -8,8 +8,12 @@ class waveletImageForm(FlaskForm):
     submit = SubmitField('Submit')
 
 class DCTImageForm(FlaskForm):
-    image = FileField('Upload Picture', validators=[FileAllowed(['jpg'], 'Only JPEG images allowed!'), DataRequired("Please select a file")])
+    image = FileField('Upload Picture', validators=[FileAllowed(['jpg', 'png', 'jpeg'], 'Only JPEG and PNG images allowed!'), DataRequired("Please select a file")])
     select = SelectField('Low pass aggressiveness', choices=[(0, "Passive"), (1, "Agressive"), (2, "Very aggressive")], default=0, coerce=int)
+    submit = SubmitField('Submit')
+
+class FFTImageForm(FlaskForm):
+    image = FileField('Upload Picture', validators=[FileAllowed(['jpg', 'png', 'jpeg'], 'Only JPEG and PNG images allowed!'), DataRequired("Please select a file")])
     submit = SubmitField('Submit')
 
 class RegionOfInterestForm(FlaskForm):

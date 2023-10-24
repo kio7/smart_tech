@@ -1,8 +1,6 @@
-import os
 import cv2 as cv
 import numpy as np
 from collections import Counter
-import os
 
 # Taken from submission 1
 # Object with leaf-nodes, left and right
@@ -52,12 +50,8 @@ def make_tree(nodes):
 
 
 def fft_quantization_huffman(image) -> str:
-    # Choose what photo to use:
-    # path = os.path.join(os.path.dirname(__file__), f"Task_1/photos/{image}") # Edited for this usecase. Will fail if files are moved.
-
     img = np.fromstring(image, np.uint8)    
     img = cv.imdecode(img, cv.IMREAD_GRAYSCALE)
-    assert img is not None, "file could not be read, check with os.path.exists()"
 
     # FFT
     f = np.fft.fft2(img)
@@ -66,9 +60,10 @@ def fft_quantization_huffman(image) -> str:
 
     # Quantization, High pass filter for FFT
     rows, cols = img.shape
-    crow, ccol = rows//2 , cols//2
-    V1 = 200
-    V2 = 201
+    crow, ccol = rows//2, cols//2
+    # Offset
+    V1 = 10
+    V2 = 10
     # Adjusting the numbers below changes the rate of compression, but large changes are needed to see a difference.
     fshift[crow-V1:crow+V2, ccol-V1:ccol+V2] = 0
 

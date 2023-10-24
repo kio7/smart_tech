@@ -68,7 +68,6 @@ def dct_quantization(image, user_input):
 
     buf = BytesIO()
     fig.savefig(buf, format="png")
-    data = b64encode(buf.getvalue()).decode('utf-8')
-    image = (f"data:image/png;base64,{data}")
+    image = (f"data:image/png;base64,{b64encode(buf.getvalue()).decode('utf-8')}")
 
     return image
