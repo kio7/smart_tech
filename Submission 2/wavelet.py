@@ -7,7 +7,6 @@ import pywt.data
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from io import BytesIO
-from PIL import Image
 from base64 import b64encode
 
 def wavelet_transform_mra(image) -> list:
