@@ -55,3 +55,4 @@ Submission 2/.python-version
 %USERPROFILE%/.pyenv/pyenv_win-3.1.1.dist-info/REQUESTED
 %USERPROFILE%/.pyenv/pyenv_win-3.1.1.dist-info/top_level.txt
 %USERPROFILE%/.pyenv/pyenv_win-3.1.1.dist-info/WHEEL
+install-pyenv-win.ps1
