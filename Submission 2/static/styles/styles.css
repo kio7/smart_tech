@@ -115,3 +115,10 @@ label {
     margin: 1 auto;
     max-width: 35rem;
 }
+
+.columns {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 2rem;
+}

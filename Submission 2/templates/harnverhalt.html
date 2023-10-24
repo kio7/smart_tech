@@ -3,28 +3,49 @@
 {% block body %}
 
 <h1>Regions of Interest</h1>
-<p class="horizontal-centered">
-    Lorem ipsum
-</p>
 
 <hr>
-<form method="POST" novalidate enctype="multipart/form-data">
-    {{ form.csrf_token() }}
+<div class="columns">
     <div>
-        <div >
-            {{ form.morphological.label }}
-            <br>
-            {{ form.morphological(class="form-control mt-2") }}
-        </div>
-        <div >
-            {{ form.sift.label }}
-            {{ form.sift(class="form-control mt-2") }}
-        </div>
+        <form method="POST" novalidate enctype="multipart/form-data">
+            {{ form.csrf_token() }}
+            <div>
+                <div >
+                    {{ form.morphological.label }}
+                    <br>
+                    {{ form.morphological(class="form-control mt-2") }}
+                </div>
+                <div >
+                    {{ form.sift.label }}
+                    {{ form.sift(class="form-control mt-2") }}
+                </div>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-success mt-2">Submit</button>
+            </div>
+        </form>
     </div>
+
+    <div style="margin-top: 1rem;">
+        <p>
+            Regions of interest are areas of the image that are of particular interest to the user.
+            The RoI is defined by the "matTeil" image, which is displayed on the right, and
+            the RoI is being detected in the "Harnverhalt" image series. 
+            All images are provided in the submission description.
+        </p>
+        <p>
+            In this submission you have the options of utilizing morphological operations and SIFT to find the RoI, or even a combination of both.
+        </p>
+           
+    </div>
+
     <div>
-        <button type="submit" class="btn btn-success mt-2">Submit</button>
+        <img class="border rounded" style="width: 128px" src="{{ url_for('static', filename='images/harnverhalt/matTeil.jpg') }}" alt="banana">
     </div>
-</form>
+</div>
+
+<hr>
+
 <div class="horizontal-centered">
     {% if images != None %}
         {% for image in images %}
@@ -32,4 +53,5 @@
         {% endfor %}
     {% endif %}
 </div>
+
 {% endblock %}
