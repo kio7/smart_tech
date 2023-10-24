@@ -113,5 +113,5 @@ label {
 .roi-image {
     display: inline-block;
     margin: 1 auto;
-    max-width: 48%;
+    max-width: 35rem;
 }

@@ -25,10 +25,11 @@
         <button type="submit" class="btn btn-success mt-2">Submit</button>
     </div>
 </form>
-{% if images != None %}
-    {% for image in images %}
-        <img src="{{ image }}" alt="Submission 2\static\images\indeximage.jpg" class="roi-image ">
-    {% endfor %}
-{% endif %}
-
+<div class="horizontal-centered">
+    {% if images != None %}
+        {% for image in images %}
+            <img src="{{ image }}" alt="Submission 2\static\images\indeximage.jpg" class="roi-image ">
+        {% endfor %}
+    {% endif %}
+</div>
 {% endblock %}

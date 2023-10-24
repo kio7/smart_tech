@@ -15,8 +15,8 @@ def harnverhalt_ROI(morphological_operation, sift):
     current_path = os.path.dirname(__file__)
     target_path = os.path.normpath(os.path.join(current_path, "..", "static", "images", "harnverhalt"))
 
-    target_image = [cv2.imread(f'{target_path}\matTeil.jpg')]
-    templates = [cv2.imread(f'{target_path}\harnverhalt{i}.png') for i in range(1, 13)]
+    target_image = [cv2.imread(f'{target_path}/matTeil.jpg')]
+    templates = [cv2.imread(f'{target_path}/harnverhalt{i}.png') for i in range(1, 13)]
     match_images = [cv2_to_base64(image) for image in templates]
 
     if morphological_operation != 0 and sift != 0:
