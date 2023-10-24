@@ -88,4 +88,4 @@ def fft_quantization_huffman(image) -> str:
     encoded_size_bytes = len(final_result) // 8 
     compression_ratio = input_size_bytes / encoded_size_bytes
 
-    return [f'Size of input string in bytes: {input_size_bytes}', f'Size of output string in bytes: {encoded_size_bytes}', f'Compression ratio: {compression_ratio}']
+    return [f'Size of input string: {input_size_bytes} bytes', f'Size of output string: {encoded_size_bytes} bytes', f'Compression ratio: {compression_ratio}']

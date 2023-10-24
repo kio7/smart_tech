@@ -31,15 +31,26 @@
 
 {% if output != None %}
     <hr>
-    <div class="subtitle">Original image</div>
-    <img src="{{ input_image }}" alt="Input image">
-
-    <p>
+    <div class="subtitle" style="font-size: 20px;">Here are the values we get from the huffman encoding</div>
+    <hr>
+    <p style="font-size: 20px;">
         {% for line in output %}
-            {{ line }}
-            <br>
+        {{ line }}
+        <br>
         {% endfor %}
     </p>
+
+    <p style="font-size: 14px;">
+        The first line is the size of the original image <br>
+        The second line is the size of the image after fft transform, quantization and huffman compression. <br>
+        The last value is how well the image has been compressed by huffman.
+    </p>
+
+    <hr>
+
+    <div class="subtitle">Original image</div>
+    <img style="width: 50%; display: block; margin-left: auto; margin-right: auto;" src="{{ input_image }}" alt="Input image">
+
 
 {% endif %}
 
