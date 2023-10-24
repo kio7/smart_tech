@@ -1,6 +1,6 @@
 from baseconfig import app
 
-# From our files
+# Imports from our own files
 from wavelet import wavelet_transform_mra as wtmra
 from wavelet import wavelet_transform as wt
 from FFT import fft_quantization_huffman
