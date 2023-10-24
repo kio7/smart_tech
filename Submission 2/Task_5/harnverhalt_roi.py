@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 from base64 import b64encode
+import os
 
 """
  Use the "harnverhalt" image series to detect the ROI. Implement an 
@@ -8,9 +9,14 @@ from base64 import b64encode
  feature vectors with SIFT or a combination of it.
 """
 
+
+
 def harnverhalt_ROI(morphological_operation, sift):
-    target_image = [cv2.imread('Submission 2\static\images\harnverhalt\matTeil.jpg')]
-    templates = [cv2.imread(f'Submission 2\static\images\harnverhalt\harnverhalt{i}.png') for i in range(1, 13)]
+    current_path = os.path.dirname(__file__)
+    target_path = os.path.normpath(os.path.join(current_path, "..", "static", "images", "harnverhalt"))
+
+    target_image = [cv2.imread(f'{target_path}\matTeil.jpg')]
+    templates = [cv2.imread(f'{target_path}\harnverhalt{i}.png') for i in range(1, 13)]
     match_images = [cv2_to_base64(image) for image in templates]
 
     if morphological_operation != 0 and sift != 0:
