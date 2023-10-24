@@ -45,7 +45,7 @@ def harnverhalt_ROI(morphological_operation, sift):
         morphed_images = {}
         # Apply morphological operations to all images
         if morphological_operation == 1:
-            morphed_images["target_image"] = erosion(target_image[0])
+            morphed_images["target_image"] = erosion(target_image)
             morphed_images["templates"] = erosion(templates)
 
         elif morphological_operation == 2:
@@ -60,7 +60,7 @@ def harnverhalt_ROI(morphological_operation, sift):
             morphed_images["target_image"] = opening(target_image)
             morphed_images["templates"] = opening(templates)
 
-        match_images = standard_matcher(morphed_images["target_image"], morphed_images["templates"])
+        match_images = standard_matcher(morphed_images["target_image"][0], morphed_images["templates"])
     
     elif sift != 0 and morphological_operation == 0:
         match_images = SIFT_matcher(target_image[0], templates)
@@ -105,7 +105,7 @@ def SIFT_matcher(target_image, templates):
 def standard_matcher(target_image, templates):
     match_images = []
 
-    target_image = cv2.imread('Submission 2\static\images\harnverhalt\matTeil.jpg')
+    #target_image = cv2.imread('Submission 2\static\images\harnverhalt\matTeil.jpg')
 
     for template in templates:
         result = cv2.matchTemplate(target_image, template, cv2.TM_CCOEFF_NORMED)
